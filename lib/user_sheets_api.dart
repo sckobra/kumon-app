@@ -28,8 +28,7 @@ class UserSheetsApi {
   static Future init() async {
     final spreadsheet = await gsheets.spreadsheet(_spreadsheetId);
     _userSheet = await _getWorkSheet(spreadsheet, title: 'Employees');
-    _timeSheet =
-        await _getWorkSheet(spreadsheet, title: 'Copy of September2022');
+    _timeSheet = await _getWorkSheet(spreadsheet, title: getTabName());
   }
 
   static Future<Worksheet> _getWorkSheet(
@@ -105,7 +104,13 @@ class UserSheetsApi {
     return DateFormat.yMd().format(currentTime);
   }
 
+  static String getTabName() {
+    final currentTime = DateTime.now();
+    return DateFormat.yMMM().format(currentTime);
+  }
+
   static void insertClockIn() {
+    debugPrint(getTabName());
     for (int i = 0; i < dates.length; i++) {
       var currentMonthDayYear = getMonthDayYear();
       if (dates[i] == currentMonthDayYear) {

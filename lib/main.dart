@@ -99,7 +99,14 @@ class _MyClockPageState extends State<MyClockPage> {
                                     UserSheetsApi.insertClockIn();
                                     Navigator.pop(context);
                                   },
-                                  child: const Text("Yes"))
+                                  child: const Text("Yes")),
+                              TextButton(
+                                onPressed: () {
+                                  debugPrint("clock in denied");
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("No"),
+                              )
                             ],
                           ));
                 },
@@ -130,6 +137,13 @@ class _MyClockPageState extends State<MyClockPage> {
                                     Navigator.pop(context);
                                   },
                                   child: const Text("Yes"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    debugPrint("clock out denied");
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("No"),
                                 )
                               ]));
                 },
