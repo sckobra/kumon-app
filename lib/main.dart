@@ -70,6 +70,14 @@ class _MyClockPageState extends State<MyClockPage> {
               height: 20,
               width: 1,
             ),
+            Text(
+              UserSheetsApi.dateDisplay(),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+            const SizedBox(
+              height: 20,
+              width: 1,
+            ),
 /*             const TextField(
               decoration: InputDecoration(
                 border: OutlineInputBorder(),

@@ -104,6 +104,11 @@ class UserSheetsApi {
     return DateFormat.yMd().format(currentTime);
   }
 
+  static String dateDisplay() {
+    final currentTime = DateTime.now();
+    return DateFormat.yMMMd().format(currentTime);
+  }
+
   static String getTabName() {
     final currentTime = DateTime.now();
     return DateFormat.yMMM().format(currentTime);
