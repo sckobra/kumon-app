@@ -1,3 +1,5 @@
+//import 'dart:html';
+
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:intl/intl.dart';
@@ -46,9 +48,10 @@ class UserSheetsApi {
   static List<String> names = ['xyz'];
   static int currentIndex = 0;
 
-  static List<String> dates = ['abc'];
+  static List<String> datesAsEpoch = [];
 
   static List<String> topRow = ['Date'];
+  static List<String> dates = [];
 
   static List<String> getNames() {
     return names;
@@ -80,10 +83,12 @@ class UserSheetsApi {
   }
 
   static void g(List<String> value, State state) {
-    dates = value;
+    datesAsEpoch = value;
     state.setState(() {});
 
-    debugPrint("dates are $dates");
+    debugPrint("dates are $datesAsEpoch");
+    epochToString();
+    debugPrint("Dates converted from epoch to datetime to string $dates");
   }
 
   static void loadDates(State state) {
@@ -92,6 +97,16 @@ class UserSheetsApi {
     Future<List<String>> d = _timeSheet!.values.column(1, fromRow: 2);
 
     d.then((value) => g(value, state));
+  }
+
+  static void epochToString() {
+    var epoch = DateTime(1899, 12, 30);
+    for (int i = 0; i < datesAsEpoch.length; i++) {
+      var dateToInt = int.parse(datesAsEpoch[i]);
+      var currentDate = epoch.add(new Duration(days: dateToInt));
+
+      dates.add(DateFormat.yMd().format(currentDate));
+    }
   }
 
   static String getCurrentHourMin() {
@@ -116,8 +131,10 @@ class UserSheetsApi {
 
   static void insertClockIn() {
     debugPrint(getTabName());
-    for (int i = 0; i < dates.length; i++) {
+    debugPrint("dates length: ${datesAsEpoch.length}");
+    for (int i = 0; i < datesAsEpoch.length; i++) {
       var currentMonthDayYear = getMonthDayYear();
+      debugPrint(getMonthDayYear());
       if (dates[i] == currentMonthDayYear) {
         debugPrint(dates[i]);
         int currentDateIndex = i;
@@ -131,7 +148,7 @@ class UserSheetsApi {
   }
 
   static void insertClockOut() {
-    for (int i = 0; i < dates.length; i++) {
+    for (int i = 0; i < datesAsEpoch.length; i++) {
       if (dates[i] == getMonthDayYear()) {
         debugPrint(dates[i]);
         int currentDateIndex = i;

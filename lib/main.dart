@@ -46,26 +46,23 @@ class _MyClockPageState extends State<MyClockPage> {
           //mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const SizedBox(
-              height: 10,
+              height: 30,
               width: 1,
             ),
-            Row(
-              children: <Widget>[
-                const SizedBox(
-                  height: 1,
-                  width: 20,
-                ),
-                Text(
-                  "Hi, ${UserSheetsApi.names[UserSheetsApi.getCurrentIndex()]}!",
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 25),
-                ),
-                const SizedBox(
-                  height: 1,
-                  width: 100,
-                ),
-              ],
+
+            const SizedBox(
+              height: 1,
+              width: 20,
             ),
+            Text(
+              "Hi, ${UserSheetsApi.names[UserSheetsApi.getCurrentIndex()]}!",
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+            ),
+            const SizedBox(
+              height: 1,
+              width: 100,
+            ),
+
             const SizedBox(
               height: 20,
               width: 1,
@@ -78,14 +75,8 @@ class _MyClockPageState extends State<MyClockPage> {
               height: 20,
               width: 1,
             ),
-/*             const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Password',
-              ),
-            ),
- */
 
+            //CLOCK IN BUTTON
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
@@ -123,6 +114,12 @@ class _MyClockPageState extends State<MyClockPage> {
               height: 20,
               width: 1,
             ),
+            const Text("STATUS: CLOCKED IN AT "),
+            const SizedBox(
+              height: 20,
+              width: 1,
+            ),
+            //CLOCK OUT BUTTON
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
@@ -156,6 +153,11 @@ class _MyClockPageState extends State<MyClockPage> {
                               ]));
                 },
                 child: const Text('clock out')),
+            const SizedBox(
+              height: 20,
+              width: 1,
+            ),
+            const Text("STATUS: CLOCKED OUT AT "),
           ],
         ),
       ),
@@ -207,7 +209,6 @@ class _MyNamePageState extends State<MyNamePage> {
                   textAlign: TextAlign.left, //this is default
                   style: const TextStyle(fontSize: 17),
                 ),
-                trailing: const Icon(Icons.more_vert),
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 30.0, //margins from side of phone
                   vertical: 12.0, //between list items
