@@ -4,8 +4,9 @@
 // Added to Git
 
 import 'package:flutter/material.dart';
-//import 'package:gsheets/gsheets.dart';
+import 'package:gsheets/gsheets.dart';
 import 'package:my_app/user_sheets_api.dart';
+import 'package:my_app/employee.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -54,8 +55,9 @@ class _MyClockPageState extends State<MyClockPage> {
               height: 1,
               width: 20,
             ),
+
             Text(
-              "Hi, ${UserSheetsApi.names[UserSheetsApi.getCurrentIndex()]}!",
+              "Hi, ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].name}!",
               style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
             ),
             const SizedBox(
@@ -84,37 +86,50 @@ class _MyClockPageState extends State<MyClockPage> {
                   backgroundColor: const Color.fromARGB(255, 140, 203, 255),
                   shape: const StadiumBorder(),
                 ),
-                onPressed: () {
-                  debugPrint("dialog opened - clock in");
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                            title: const Text(
-                                "Are you sure you want to check in?"),
-                            actions: [
-                              TextButton(
-                                  onPressed: () {
-                                    debugPrint("clock in confirmed");
-                                    UserSheetsApi.insertClockIn();
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("Yes")),
-                              TextButton(
-                                onPressed: () {
-                                  debugPrint("clock in denied");
-                                  Navigator.pop(context);
-                                },
-                                child: const Text("No"),
-                              )
-                            ],
-                          ));
-                },
+                onPressed: !UserSheetsApi
+                        .employees[UserSheetsApi.getCurrentIndex()].isClockedIn
+                    ? () {
+                        debugPrint("dialog opened - clock in");
+                        debugPrint(
+                            "object details: ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].toString()}");
+                        debugPrint(
+                            "is clocked in? ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].isClockedIn}");
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                  title: const Text(
+                                      "Are you sure you want to check in?"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          setState(() {
+                                            UserSheetsApi.insertClockIn();
+                                          });
+                                          debugPrint("clock in confirmed");
+
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes")),
+                                    TextButton(
+                                      onPressed: () {
+                                        debugPrint("clock in denied");
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("No"),
+                                    )
+                                  ],
+                                ));
+                      }
+                    : null,
                 child: const Text('clock in')),
             const SizedBox(
               height: 20,
               width: 1,
             ),
-            const Text("STATUS: CLOCKED IN AT "),
+
+            Text(
+                "STATUS: CLOCKED IN AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkInTime}"),
+
             const SizedBox(
               height: 20,
               width: 1,
@@ -129,6 +144,7 @@ class _MyClockPageState extends State<MyClockPage> {
                 ),
                 onPressed: () {
                   debugPrint("dialog opened - clock out");
+
                   showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
@@ -138,7 +154,10 @@ class _MyClockPageState extends State<MyClockPage> {
                                 TextButton(
                                   onPressed: () {
                                     debugPrint("clock out confirmed");
-                                    UserSheetsApi.insertClockOut();
+                                    setState(() {
+                                      UserSheetsApi.insertClockOut();
+                                    });
+
                                     Navigator.pop(context);
                                   },
                                   child: const Text("Yes"),
@@ -157,7 +176,8 @@ class _MyClockPageState extends State<MyClockPage> {
               height: 20,
               width: 1,
             ),
-            const Text("STATUS: CLOCKED OUT AT "),
+            Text(
+                "STATUS: CLOCKED OUT AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkOutTime}"),
           ],
         ),
       ),

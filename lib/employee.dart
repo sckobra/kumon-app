@@ -6,8 +6,9 @@ class Employee {
   String name = "";
   String checkInTime = "";
   String checkOutTime = "";
+  bool isClockedIn = false;
 
-//CONSTRUCTORS
+//CONSTRUCTOR
 
   Employee(this.name, this.checkInTime, this.checkOutTime);
 

@@ -61,9 +61,6 @@ class UserSheetsApi {
     return names;
   }
 
-  static String clockInTime = "";
-  static String clockOutTime = "";
-
   static f(List<String> value, State state) {
     names = value;
     debugPrint("NAMES LIST: $names");
@@ -79,7 +76,7 @@ class UserSheetsApi {
       debugPrint(employees[i].checkOutTime);
     }
 
-    debugPrint("NEW LIST OF EMPLOYEE OBJECTS: $employees");
+    //debugPrint("NEW LIST OF EMPLOYEE OBJECTS: $employees");
 
     topRow.add('Day Total');
     topRow.add('Day Pay');
@@ -162,15 +159,17 @@ class UserSheetsApi {
         debugPrint('${names[currentIndex]} current name pressed $currentIndex');
         var rowIndexName = topRow.indexOf('${names[currentIndex]} Check In');
         debugPrint('$rowIndexName');
-        clockInTime = getCurrentHourMin();
-        _timeSheet!.values.insertValue(clockInTime,
+        employees[getCurrentIndex()].checkInTime = getCurrentHourMin();
+        debugPrint(
+            "check in time from employee class: ${employees[getCurrentIndex()].checkInTime}");
+
+        _timeSheet!.values.insertValue(getCurrentHourMin(),
             column: rowIndexName + 1, row: currentDateIndex + 2);
+        employees[getCurrentIndex()].isClockedIn = true;
+        //debugPrint(
+        //  "is clocked in? ${employees[getCurrentIndex()].isClockedIn}");
       }
     }
-  }
-
-  static String getClockInTime() {
-    return clockInTime;
   }
 
   static void insertClockOut() {
@@ -181,15 +180,13 @@ class UserSheetsApi {
         debugPrint('${names[currentIndex]} current name pressed $currentIndex');
         var rowIndexName = topRow.indexOf('${names[currentIndex]} Check Out');
         debugPrint('$rowIndexName');
-        clockOutTime = getCurrentHourMin();
-        _timeSheet!.values.insertValue(clockOutTime,
+        employees[getCurrentIndex()].checkOutTime = getCurrentHourMin();
+        debugPrint(
+            "check out time from employee class: ${employees[getCurrentIndex()].checkOutTime}");
+        _timeSheet!.values.insertValue(getCurrentHourMin(),
             column: rowIndexName + 1, row: currentDateIndex + 2);
       }
     }
-  }
-
-  static String getClockOutTime() {
-    return clockOutTime;
   }
 
   static void passCurrentIndex(var index) {
