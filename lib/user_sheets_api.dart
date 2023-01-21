@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:gsheets/gsheets.dart';
 import 'package:intl/intl.dart';
+import 'package:my_app/employee.dart';
 
 class UserSheetsApi {
 //credentials
@@ -46,6 +47,9 @@ class UserSheetsApi {
   }
 
   static List<String> names = ['xyz'];
+
+  static List<Employee> employees = [];
+
   static int currentIndex = 0;
 
   static List<String> datesAsEpoch = [];
@@ -62,7 +66,21 @@ class UserSheetsApi {
 
   static f(List<String> value, State state) {
     names = value;
-    //topRow = names;
+    debugPrint("NAMES LIST: $names");
+
+    for (int i = 0; i < names.length; i++) {
+      debugPrint("entered loop to add objects");
+      //debugPrint(names[i]);
+      employees.add(Employee(names[i], "0:00 AM", "0:00 AM"));
+      //employees[i].setName(names[i]);
+      debugPrint(employees[i].toString());
+      debugPrint(employees[i].name);
+      debugPrint(employees[i].checkInTime);
+      debugPrint(employees[i].checkOutTime);
+    }
+
+    debugPrint("NEW LIST OF EMPLOYEE OBJECTS: $employees");
+
     topRow.add('Day Total');
     topRow.add('Day Pay');
     for (int i = 0; i < names.length; i++) {
@@ -151,7 +169,9 @@ class UserSheetsApi {
     }
   }
 
-  //static String getClockInTime() {}
+  static String getClockInTime() {
+    return clockInTime;
+  }
 
   static void insertClockOut() {
     for (int i = 0; i < datesAsEpoch.length; i++) {
@@ -166,6 +186,10 @@ class UserSheetsApi {
             column: rowIndexName + 1, row: currentDateIndex + 2);
       }
     }
+  }
+
+  static String getClockOutTime() {
+    return clockOutTime;
   }
 
   static void passCurrentIndex(var index) {
