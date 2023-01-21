@@ -57,6 +57,9 @@ class UserSheetsApi {
     return names;
   }
 
+  static String clockInTime = "";
+  static String clockOutTime = "";
+
   static f(List<String> value, State state) {
     names = value;
     //topRow = names;
@@ -141,11 +144,14 @@ class UserSheetsApi {
         debugPrint('${names[currentIndex]} current name pressed $currentIndex');
         var rowIndexName = topRow.indexOf('${names[currentIndex]} Check In');
         debugPrint('$rowIndexName');
-        _timeSheet!.values.insertValue(getCurrentHourMin(),
+        clockInTime = getCurrentHourMin();
+        _timeSheet!.values.insertValue(clockInTime,
             column: rowIndexName + 1, row: currentDateIndex + 2);
       }
     }
   }
+
+  //static String getClockInTime() {}
 
   static void insertClockOut() {
     for (int i = 0; i < datesAsEpoch.length; i++) {
@@ -155,7 +161,8 @@ class UserSheetsApi {
         debugPrint('${names[currentIndex]} current name pressed $currentIndex');
         var rowIndexName = topRow.indexOf('${names[currentIndex]} Check Out');
         debugPrint('$rowIndexName');
-        _timeSheet!.values.insertValue(getCurrentHourMin(),
+        clockOutTime = getCurrentHourMin();
+        _timeSheet!.values.insertValue(clockOutTime,
             column: rowIndexName + 1, row: currentDateIndex + 2);
       }
     }
