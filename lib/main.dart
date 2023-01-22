@@ -39,7 +39,7 @@ class _MyClockPageState extends State<MyClockPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('RecordDateTime'),
+        title: const Text('Clock In'),
         backgroundColor: const Color.fromARGB(255, 140, 203, 255),
       ),
       body: Center(
@@ -98,7 +98,7 @@ class _MyClockPageState extends State<MyClockPage> {
                             context: context,
                             builder: (context) => AlertDialog(
                                   title: const Text(
-                                      "Are you sure you want to check in?"),
+                                      "Are you sure you want to clock in?"),
                                   actions: [
                                     TextButton(
                                         onPressed: () {
@@ -121,14 +121,17 @@ class _MyClockPageState extends State<MyClockPage> {
                                 ));
                       }
                     : null,
-                child: const Text('clock in')),
+                child: const Text(
+                  'clock in',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                )),
             const SizedBox(
               height: 20,
               width: 1,
             ),
 
             Text(
-                "STATUS: CLOCKED IN AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkInTime}"),
+                "CLOCKED IN AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkInTime}"),
 
             const SizedBox(
               height: 20,
@@ -142,42 +145,48 @@ class _MyClockPageState extends State<MyClockPage> {
                   backgroundColor: const Color.fromARGB(255, 140, 203, 255),
                   shape: const StadiumBorder(),
                 ),
-                onPressed: () {
-                  debugPrint("dialog opened - clock out");
+                onPressed: !UserSheetsApi
+                        .employees[UserSheetsApi.getCurrentIndex()].isClockedOut
+                    ? () {
+                        debugPrint("dialog opened - clock out");
 
-                  showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                              title: const Text(
-                                  "Are you sure you want to check out?"),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    debugPrint("clock out confirmed");
-                                    setState(() {
-                                      UserSheetsApi.insertClockOut();
-                                    });
+                        showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                                    title: const Text(
+                                        "Are you sure you want to clock out?"),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          debugPrint("clock out confirmed");
+                                          setState(() {
+                                            UserSheetsApi.insertClockOut();
+                                          });
 
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("Yes"),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    debugPrint("clock out denied");
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("No"),
-                                )
-                              ]));
-                },
-                child: const Text('clock out')),
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("Yes"),
+                                      ),
+                                      TextButton(
+                                        onPressed: () {
+                                          debugPrint("clock out denied");
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("No"),
+                                      )
+                                    ]));
+                      }
+                    : null,
+                child: const Text(
+                  'clock out',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                )),
             const SizedBox(
               height: 20,
               width: 1,
             ),
             Text(
-                "STATUS: CLOCKED OUT AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkOutTime}"),
+                "CLOCKED OUT AT ${UserSheetsApi.employees[UserSheetsApi.getCurrentIndex()].checkOutTime}"),
           ],
         ),
       ),

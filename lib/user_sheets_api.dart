@@ -185,6 +185,9 @@ class UserSheetsApi {
             "check out time from employee class: ${employees[getCurrentIndex()].checkOutTime}");
         _timeSheet!.values.insertValue(getCurrentHourMin(),
             column: rowIndexName + 1, row: currentDateIndex + 2);
+        employees[getCurrentIndex()].isClockedOut = true;
+        debugPrint(
+            "is clocked out? ${employees[getCurrentIndex()].isClockedOut}");
       }
     }
   }

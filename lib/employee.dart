@@ -7,6 +7,7 @@ class Employee {
   String checkInTime = "";
   String checkOutTime = "";
   bool isClockedIn = false;
+  bool isClockedOut = false;
 
 //CONSTRUCTOR
 
