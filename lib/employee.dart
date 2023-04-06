@@ -8,6 +8,8 @@ class Employee {
   String checkOutTime = "";
   bool isClockedIn = false;
   bool isClockedOut = false;
+  DateTime? shiftStart;
+  DateTime? shiftEnd;
 
 //CONSTRUCTOR
 
